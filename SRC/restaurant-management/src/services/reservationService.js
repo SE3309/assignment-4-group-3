@@ -11,3 +11,8 @@ export const addReservation = async (reservation) => {
     const response = await axios.post(API_URL, reservation);
     return response.data;
 };
+
+export const deleteOldReservations = async () => {
+    const response = await axios.delete(`${API_URL}/old`);
+    return response.data;
+};

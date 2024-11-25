@@ -11,3 +11,8 @@ export const updateStaffWage = async (id, wage) => {
     const response = await axios.put(`${API_URL}/${id}`, { wage });
     return response.data;
 };
+
+export const getStaffPerformance = async () => {
+    const response = await axios.get(`${API_URL}/performance`);
+    return response.data;
+};

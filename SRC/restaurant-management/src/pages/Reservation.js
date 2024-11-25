@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getReservations, addReservation } from '../services/reservationService';
+import { getReservations, addReservation, deleteOldReservations} from '../services/reservationService';
 
 const Reservation = () => {
     const [reservations, setReservations] = useState([]);
@@ -29,9 +29,22 @@ const Reservation = () => {
         setFormData({ customerID: '', headCount: '', date: '' });
     };
 
+    const handleDeleteOldReservations = async () => {
+        try {
+            const response = await deleteOldReservations();
+            alert(response.message);
+            // Re-fetch reservations to update the list
+            const updatedReservations = await getReservations();
+            setReservations(updatedReservations);
+        } catch (error) {
+            alert('Error deleting old reservations');
+        }
+    };
+
     return (
         <div>
             <h1>Reservations</h1>
+            <button onClick={handleDeleteOldReservations}>Delete Old Reservations</button>
             <form onSubmit={handleSubmit}>
                 <input
                     type="number"
@@ -69,5 +82,7 @@ const Reservation = () => {
         </div>
     );
 };
+
+
 
 export default Reservation;

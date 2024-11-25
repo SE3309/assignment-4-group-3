@@ -25,4 +25,20 @@ router.post('/', (req, res) => {
     });
 });
 
+router.delete('/old', (req, res) => {
+    const query = `
+        DELETE FROM Reservation
+        WHERE date < CURDATE()
+          AND customerID NOT IN (
+              SELECT DISTINCT customerID FROM CustomerOrder
+          )
+    `;
+    db.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ message: `${results.affectedRows} reservations deleted` });
+    });
+});
+
 module.exports = router;
