@@ -61,13 +61,26 @@ const Staff = () => {
                 <button type="submit">Update Wage</button>
             </form>
 
-            <ul>
-                {staff.map((member) => (
-                    <li key={member.staffID}>
-                        {`${member.name} (${member.jobTitle}) - $${member.wage}`}
-                    </li>
-                ))}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Staff ID</th>
+                        <th>Name</th>
+                        <th>Job Title</th>
+                        <th>Wage ($)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {staff.map((member) => (
+                        <tr key={member.staffID}>
+                            <td>{member.staffID}</td>
+                            <td>{member.name}</td>
+                            <td>{member.jobTitle}</td>
+                            <td>{member.wage}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

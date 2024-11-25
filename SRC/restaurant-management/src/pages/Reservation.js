@@ -72,13 +72,26 @@ const Reservation = () => {
                 <button type="submit">Add Reservation</button>
             </form>
 
-            <ul>
-                {reservations.map((reservation) => (
-                    <li key={reservation.reservationID}>
-                        {`Customer ${reservation.customerID} - Headcount: ${reservation.headCount} on ${reservation.date}`}
-                    </li>
-                ))}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Reservation ID</th>
+                        <th>Customer ID</th>
+                        <th>Head Count</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {reservations.map((reservation) => (
+                        <tr key={reservation.reservationID}>
+                            <td>{reservation.reservationID}</td>
+                            <td>{reservation.customerID}</td>
+                            <td>{reservation.headCount}</td>
+                            <td>{reservation.date}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

@@ -15,13 +15,24 @@ const Menu = () => {
     return (
         <div>
             <h1>Menu</h1>
-            <ul>
-                {menuItems.map((item) => (
-                    <li key={item.menuID}>
-                        {item.name} - ${item.price}
-                    </li>
-                ))}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Menu ID</th>
+                        <th>Name</th>
+                        <th>Price ($)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {menuItems.map((item) => (
+                        <tr key={item.menuID}>
+                            <td>{item.menuID}</td>
+                            <td>{item.name}</td>
+                            <td>{item.price}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

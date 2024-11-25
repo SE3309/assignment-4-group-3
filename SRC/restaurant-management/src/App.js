@@ -5,6 +5,7 @@ import Reservation from './pages/Reservation';
 import Staff from './pages/Staff';
 import Revenue from './pages/Revenue';
 import StaffPerformance from './pages/StaffPerformance';
+import './styles.css';
 
 const App = () => {
     return (
