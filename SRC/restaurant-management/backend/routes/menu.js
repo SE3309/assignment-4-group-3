@@ -57,4 +57,26 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+
+
+// Get revenue for each menu item
+router.get('/revenue', (req, res) => {
+    const query = `
+        SELECT 
+            Menu.name AS MenuItem,
+            SUM(OrderDetail.quantity * Menu.price) AS TotalRevenue
+        FROM OrderDetail
+        JOIN Menu ON OrderDetail.menuID = Menu.menuID
+        GROUP BY Menu.name
+        ORDER BY TotalRevenue DESC
+    `;
+    db.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(results);
+    });
+});
+
+
 module.exports = router;
