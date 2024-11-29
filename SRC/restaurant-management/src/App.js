@@ -4,6 +4,7 @@ import Menu from './pages/Menu';
 import Reservation from './pages/Reservation';
 import Staff from './pages/Staff';
 import Revenue from './pages/Revenue';
+import StartPage from './pages/StartPage'
 import StaffPerformance from './pages/StaffPerformance';
 import './styles.css';
 
@@ -15,7 +16,7 @@ const App = () => {
                 <nav>
                     <ul>
                         <li>
-                            <Link to="/">Menu</Link>
+                            <Link to="/menu">Menu</Link>
                         </li>
                         <li>
                             <Link to="/reservations">Reservations</Link>
@@ -34,7 +35,8 @@ const App = () => {
 
                 {/* Routes */}
                 <Routes>
-                    <Route path="/" element={<Menu />} />
+                    <Route path="/" element={<StartPage />} />
+                    <Route path="/menu" element={<Menu />} />
                     <Route path="/reservations" element={<Reservation />} />
                     <Route path="/staff" element={<Staff />} />
                     <Route path="/revenue" element={<Revenue />} />
