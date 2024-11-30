@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate} from "react-router-dom";
 import { login } from "../services/loginService";
 
-const Login = () => {
+const Login = ( { setIsLoggedIn } ) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -11,10 +13,13 @@ const Login = () => {
     try {
       const response = await login(email);
       setMessage(`Welcome, ${response.customer.name}`);
+      setIsLoggedIn(true);
+      navigate('/menu')
     } catch (error) {
       if (error.response && error.response.data.message) {
         setMessage(error.response.data.message);
       } else {
+        console.log(error.response);
         setMessage("Error logging in");
       }
     }
