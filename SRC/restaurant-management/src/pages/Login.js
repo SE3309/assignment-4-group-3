@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate} from "react-router-dom";
 import { login } from "../services/loginService";
 
-const Login = ( { setIsLoggedIn } ) => {
+const Login = ( { setIsLoggedIn, setIsAdmin } ) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -12,8 +12,9 @@ const Login = ( { setIsLoggedIn } ) => {
 
     try {
       const response = await login(email);
-      setMessage(`Welcome, ${response.customer.name}`);
+      setMessage(`Welcome, ${response.user.name}`);
       setIsLoggedIn(true);
+      setIsAdmin(response.isAdmin);
       navigate('/menu')
     } catch (error) {
       if (error.response && error.response.data.message) {

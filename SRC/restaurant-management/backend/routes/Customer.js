@@ -14,8 +14,14 @@ router.post("/login", (req, res) => {
 
   console.log("Received email for login:", email);
 
-  const query = "SELECT * FROM Customer WHERE email = ?";
-  db.query(query, [email], (err, results) => {
+  const query = `
+    SELECT email, isAdmin FROM (
+      SELECT email, TRUE AS isAdmin FROM Admin WHERE email = ?
+      UNION
+      SELECT email, FALSE AS isAdmin FROM Customer WHERE email = ?
+    ) AS UserCheck LIMIT 1;
+  `;
+  db.query(query, [email, email], (err, results) => {
     if (err) {
       console.error("Database query error:", err.message);
       return res.status(500).json({ message: "Internal server error" });
@@ -25,10 +31,11 @@ router.post("/login", (req, res) => {
 
     if (results.length > 0) {
       // Successfully found the email
-      console.log("Login successful for email:", email);
       res.status(200).json({
         message: "Login successful",
-        customer: results[0],
+        email: results[0].email,
+        isAdmin: results[0].isAdmin,
+        user: results[0],
       });
     } else {
       // Email not found

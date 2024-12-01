@@ -10,15 +10,17 @@ import "./styles.css";
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+    const [isAdmin, setIsAdmin] = useState(null); // Admin state
 
     const handleLogout = () => {
         setIsLoggedIn(false); // Reset login state
+        setIsAdmin(null); // Reset admin state on logout
     };
 
   return (
     <Router>
       <div>
-        {isLoggedIn && (
+        {isLoggedIn && isAdmin && (
             <header>
           {/* Navigation */}
           <nav>
@@ -46,10 +48,32 @@ const App = () => {
         </header>
         )}
 
+          {isLoggedIn && !isAdmin && (
+            <header>
+          {/* Navigation */}
+          <nav>
+            <ul>
+              <li>
+                <Link to="/menu">Menu</Link>
+              </li>
+                <li>
+                <Link to="/menu">Menu</Link>
+              </li>
+                <li>
+                <Link to="/menu">Menu</Link>
+              </li>
+              <li>
+                <Link to="/" onClick={handleLogout}>Logout</Link> {/* Add link to the login page */}
+              </li>
+            </ul>
+         </nav>
+        </header>
+        )}
+
         {/* Routes */}
         <Routes>
             <Route path="/"
-              element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+              element={<Login setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/reservations" element={<Reservation />} />
             <Route path="/staff" element={<Staff />} />
