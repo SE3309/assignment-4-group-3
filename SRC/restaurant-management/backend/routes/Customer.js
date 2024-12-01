@@ -15,12 +15,12 @@ router.post("/login", (req, res) => {
   console.log("Received email for login:", email);
 
   const query = `
-    SELECT email, isAdmin FROM (
-      SELECT email, TRUE AS isAdmin FROM Admin WHERE email = ?
-      UNION
-      SELECT email, FALSE AS isAdmin FROM Customer WHERE email = ?
-    ) AS UserCheck LIMIT 1;
-  `;
+  SELECT customerID, name, email, isAdmin FROM (
+    SELECT NULL AS customerID, name, email, TRUE AS isAdmin FROM Admin WHERE email = ?
+    UNION
+    SELECT customerID, name, email, FALSE AS isAdmin FROM Customer WHERE email = ?
+  ) AS UserCheck LIMIT 1;
+`;
   db.query(query, [email, email], (err, results) => {
     if (err) {
       console.error("Database query error:", err.message);
@@ -30,13 +30,28 @@ router.post("/login", (req, res) => {
     console.log("Query executed. Results:", results);
 
     if (results.length > 0) {
-      // Successfully found the email
-      res.status(200).json({
-        message: "Login successful",
-        email: results[0].email,
-        isAdmin: results[0].isAdmin,
-        user: results[0],
-      });
+      const user = results[0];
+
+      if (!user.isAdmin) {
+        res.status(200).json({
+          message: "Login successful",
+          isAdmin: user.isAdmin,
+          user: {
+            customerID: user.customerID, // Include customerID for customers
+            name: user.name,
+            email: user.email,
+          },
+        });
+      } else {
+        res.status(200).json({
+          message: "Login successful",
+          isAdmin: user.isAdmin,
+          user: {
+            name: user.name,
+            email: user.email,
+          },
+        });
+      }
     } else {
       // Email not found
       console.warn("Email not found:", email);

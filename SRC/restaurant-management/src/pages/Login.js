@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { login } from "../services/loginService";
 
-const Login = ( { setIsLoggedIn, setIsAdmin } ) => {
+const Login = ({ setIsLoggedIn, setIsAdmin, setCustomerID }) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -15,9 +15,15 @@ const Login = ( { setIsLoggedIn, setIsAdmin } ) => {
       setMessage(`Welcome, ${response.user.name}`);
       setIsLoggedIn(true);
       setIsAdmin(response.isAdmin);
-      navigate('/menu')
+
+      if (!response.isAdmin) {
+        setCustomerID(response.user.customerID);
+        navigate("/CustomerReservations"); // Redirect customers to their reservations page
+      } else {
+        navigate("/menu"); // Redirect admins to the admin menu page
+      }
     } catch (error) {
-      if (error.response && error.response.data.message) {
+      if (error.response) {
         setMessage(error.response.data.message);
       } else {
         console.log(error.response);
@@ -27,7 +33,7 @@ const Login = ( { setIsLoggedIn, setIsAdmin } ) => {
   };
   return (
     <div>
-      <h1>Customer Login</h1>
+      <h1>Login</h1>
       <form onSubmit={handleLogin}>
         <input
           type="email"
