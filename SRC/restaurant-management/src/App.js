@@ -5,47 +5,51 @@ import Reservation from "./pages/Reservation";
 import Staff from "./pages/Staff";
 import Revenue from "./pages/Revenue";
 import StaffPerformance from "./pages/StaffPerformance";
-import Login from "./pages/Login"; // Import the Login component
+import Expenses from "./pages/Expenses"; // Import the Expenses page
+import Login from "./pages/Login";
 import "./styles.css";
 import CustomerMenu from "./pages/CustomerMenu";
-import CustomerReservations from "./pages/CustomerReservation"; // New customer reservations page
+import CustomerReservations from "./pages/CustomerReservation";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
-  const [isAdmin, setIsAdmin] = useState(null); // Admin state
-  const [customerID, setCustomerID] = useState(null); // Store customer ID after login
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const [isAdmin, setIsAdmin] = useState(null); // Boolean: true for admin, false for customer
+  const [customerID, setCustomerID] = useState(null); // Store logged-in customer ID
 
   const handleLogout = () => {
-    setIsLoggedIn(false); // Reset login state
-    setIsAdmin(null); // Reset admin state
-    setCustomerID(null); // Clear customer ID
+    setIsLoggedIn(false);
+    setIsAdmin(null);
+    setCustomerID(null);
   };
 
   return (
     <Router>
       <div>
+        {/* Admin Navigation */}
         {isLoggedIn && isAdmin && (
           <header>
-            {/* Navigation */}
-            <nav>
-              <ul>
+            <nav style={{ backgroundColor: "#333", padding: "10px" }}>
+              <ul style={{ display: "flex", listStyle: "none", gap: "15px", color: "white" }}>
                 <li>
-                  <Link to="/menu">Menu</Link>
+                  <Link to="/menu" style={{ color: "white", textDecoration: "none" }}>Menu</Link>
                 </li>
                 <li>
-                  <Link to="/reservations">Reservations</Link>
+                  <Link to="/reservations" style={{ color: "white", textDecoration: "none" }}>Reservations</Link>
                 </li>
                 <li>
-                  <Link to="/staff">Staff</Link>
+                  <Link to="/staff" style={{ color: "white", textDecoration: "none" }}>Staff</Link>
                 </li>
                 <li>
-                  <Link to="/revenue">Revenue</Link>
+                  <Link to="/revenue" style={{ color: "white", textDecoration: "none" }}>Revenue</Link>
                 </li>
                 <li>
-                  <Link to="/staff-performance">Staff Performance</Link>
+                  <Link to="/staff-performance" style={{ color: "white", textDecoration: "none" }}>Staff Performance</Link>
                 </li>
                 <li>
-                  <Link to="/" onClick={handleLogout}>
+                  <Link to="/expenses" style={{ color: "white", textDecoration: "none" }}>Expenses</Link>
+                </li>
+                <li>
+                  <Link to="/" onClick={handleLogout} style={{ color: "white", textDecoration: "none" }}>
                     Logout
                   </Link>
                 </li>
@@ -54,23 +58,19 @@ const App = () => {
           </header>
         )}
 
+        {/* Customer Navigation */}
         {isLoggedIn && !isAdmin && (
           <header>
-            {/* Navigation */}
-            <nav>
-              <ul>
+            <nav style={{ backgroundColor: "#333", padding: "10px" }}>
+              <ul style={{ display: "flex", listStyle: "none", gap: "15px", color: "white" }}>
                 <li>
-                  <Link to="/CustomerMenu">Menu</Link>
+                  <Link to="/CustomerMenu" style={{ color: "white", textDecoration: "none" }}>Menu</Link>
                 </li>
                 <li>
-                  <Link to="/CustomerReservations">My Reservations</Link>
+                  <Link to="/CustomerReservations" style={{ color: "white", textDecoration: "none" }}>My Reservations</Link>
                 </li>
                 <li>
-                  <Link to="/">Order</Link>
-                </li>
-
-                <li>
-                  <Link to="/" onClick={handleLogout}>
+                  <Link to="/" onClick={handleLogout} style={{ color: "white", textDecoration: "none" }}>
                     Logout
                   </Link>
                 </li>
@@ -87,7 +87,7 @@ const App = () => {
               <Login
                 setIsLoggedIn={setIsLoggedIn}
                 setIsAdmin={setIsAdmin}
-                setCustomerID={setCustomerID} // Pass the setter for customer ID
+                setCustomerID={setCustomerID}
               />
             }
           />
@@ -96,10 +96,11 @@ const App = () => {
           <Route path="/staff" element={<Staff />} />
           <Route path="/revenue" element={<Revenue />} />
           <Route path="/staff-performance" element={<StaffPerformance />} />
+          <Route path="/expenses" element={<Expenses loggedInAdminID={isAdmin} />} />
           <Route path="/CustomerMenu" element={<CustomerMenu />} />
           <Route
             path="/CustomerReservations"
-            element={<CustomerReservations customerID={customerID} />} // Pass customer ID
+            element={<CustomerReservations customerID={customerID} />}
           />
         </Routes>
       </div>

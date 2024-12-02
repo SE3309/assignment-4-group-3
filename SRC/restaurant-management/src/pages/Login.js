@@ -12,25 +12,33 @@ const Login = ({ setIsLoggedIn, setIsAdmin, setCustomerID }) => {
 
     try {
       const response = await login(email);
+
+      if (!response || !response.user || typeof response.isAdmin === "undefined") {
+        throw new Error("Invalid response from server");
+      }
+
       setMessage(`Welcome, ${response.user.name}`);
       setIsLoggedIn(true);
       setIsAdmin(response.isAdmin);
 
       if (!response.isAdmin) {
         setCustomerID(response.user.customerID);
-        navigate("/CustomerReservations"); // Redirect customers to their reservations page
+        sessionStorage.setItem("customerID", response.user.customerID); // Persist customerID
+        navigate("/CustomerReservations");
       } else {
-        navigate("/menu"); // Redirect admins to the admin menu page
+        sessionStorage.setItem("adminID", response.user.adminID); // Persist adminID
+        navigate("/menu");
       }
     } catch (error) {
       if (error.response) {
-        setMessage(error.response.data.message);
+        setMessage(error.response.data.message || "Login failed");
       } else {
-        console.log(error.response);
+        console.error("Login error:", error);
         setMessage("Error logging in");
       }
     }
   };
+
   return (
     <div>
       <h1>Login</h1>

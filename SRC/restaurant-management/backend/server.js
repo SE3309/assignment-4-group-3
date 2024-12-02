@@ -4,23 +4,19 @@ const app = express();
 const reservationRoutes = require("./routes/reservation");
 const staffRoutes = require("./routes/staff");
 const customerRoutes = require("./routes/Customer");
+const menuRoutes = require("./routes/menu");
+const expenseRoutes = require("./routes/Expenses"); // Import the expenses route
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Import routes
-const menuRoutes = require("./routes/menu");
-
-// Mount customer routes
+// Mount routes
 app.use("/api/customer", customerRoutes);
-
-// Use routes
-app.use("/api/menu", menuRoutes); // Pass the router as middleware
-
+app.use("/api/menu", menuRoutes);
 app.use("/api/reservation", reservationRoutes);
-
 app.use("/api/staff", staffRoutes);
+app.use("/api/expenses", expenseRoutes); // Mount the expenses route
 
 // Start the server
 const PORT = 4000;
