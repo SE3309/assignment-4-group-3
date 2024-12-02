@@ -6,6 +6,7 @@ const staffRoutes = require("./routes/staff");
 const customerRoutes = require("./routes/Customer");
 const menuRoutes = require("./routes/menu");
 const expenseRoutes = require("./routes/Expenses"); // Import the expenses route
+const customerOrderRoutes = require("./routes/customerOrder"); // Import the customerOrder route
 
 // Middleware
 app.use(cors());
@@ -17,6 +18,7 @@ app.use("/api/menu", menuRoutes);
 app.use("/api/reservation", reservationRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/expenses", expenseRoutes); // Mount the expenses route
+app.use("/api/customerOrder", customerOrderRoutes);
 
 // Start the server
 const PORT = 4000;

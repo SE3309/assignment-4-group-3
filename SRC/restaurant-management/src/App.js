@@ -9,6 +9,7 @@ import Expenses from "./pages/Expenses"; // Import the Expenses page
 import Login from "./pages/Login";
 import "./styles.css";
 import CustomerMenu from "./pages/CustomerMenu";
+import PlaceOrder from "./pages/PlaceOrder";
 import CustomerReservations from "./pages/CustomerReservation";
 
 const App = () => {
@@ -70,6 +71,9 @@ const App = () => {
                   <Link to="/CustomerReservations" style={{ color: "white", textDecoration: "none" }}>My Reservations</Link>
                 </li>
                 <li>
+                  <Link to="/PlaceOrder" style={{ color: "white", textDecoration: "none" }}>Place Order</Link>
+                </li>
+                <li>
                   <Link to="/" onClick={handleLogout} style={{ color: "white", textDecoration: "none" }}>
                     Logout
                   </Link>
@@ -98,6 +102,7 @@ const App = () => {
           <Route path="/staff-performance" element={<StaffPerformance />} />
           <Route path="/expenses" element={<Expenses loggedInAdminID={isAdmin} />} />
           <Route path="/CustomerMenu" element={<CustomerMenu />} />
+          <Route path="/PlaceOrder" element={<PlaceOrder />} />
           <Route
             path="/CustomerReservations"
             element={<CustomerReservations customerID={customerID} />}
